@@ -31,11 +31,12 @@ CREATE TABLE Books (
 )
 GO
 
+INSERT INTO Users(Id, Password) VALUES ('jack','password')
 INSERT INTO Books(Author, Title, ISBN, CopyNumber) VALUES('Stephen King','The Dark Tower',102341,1)
 INSERT INTO Books(Author, Title, ISBN, CopyNumber) VALUES('Stephen King','The Dark Tower',102341,2)
 INSERT INTO Books(Author, Title, ISBN, CopyNumber) VALUES('Stephen King','The Dark Tower',102341,3)
 INSERT INTO Books(Author, Title, ISBN, CopyNumber) VALUES('Stephen King','The Dark Tower',102341,4)
 INSERT INTO Books(Author, Title, ISBN, CopyNumber) VALUES('J.K.Rowling','Harry Potter',1041,1)
-INSERT INTO Books(Author, Title, ISBN, CopyNumber) VALUES('J.K.Rowling','Harry Potter',1041,2)
+INSERT INTO Books(Author, Title, ISBN, CopyNumber, UserId) VALUES('J.K.Rowling','Harry Potter',1041,2,'jack')
 
 SELECT * FROM Books

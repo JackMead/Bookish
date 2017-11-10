@@ -15,5 +15,13 @@ namespace Bookish
             var books = (List<Book>)db.Query<Book>(SqlString);
             return books;
         }
+
+        public List<Book> GetBooksForUser(string UserId)
+        {
+            IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["LibraryConnection"].ConnectionString);
+            string SqlString = "SELECT [Author],[Title],[ISBN],[CopyNumber] FROM [Books] JOIN [Users] WHERE Id=="+UserId;
+            var books = (List<Book>)db.Query<Book>(SqlString);
+            return books;
+        }
     }
 }

@@ -15,6 +15,13 @@ namespace Bookish
             }
 
             Console.ReadLine();
+
+            var jackBooks = dbAccess.GetBooksForUser("jack");
+            foreach (var book in books)
+            {
+                Console.WriteLine("Jack has the book:" + book.Title);
+            }
+            Console.ReadLine();
         }
     }
 }
