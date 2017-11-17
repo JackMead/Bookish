@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "MyBooks";
+}
+@using Microsoft.AspNet.Identity
+@model Bookish.Web.Models.BooksModel
+
+<h2>My Books</h2>
+
+<ul>
+    @{
+        foreach (var book in Model.books)
+        {
+            <li>@book.Title, Due: @book.DueDate.ToShortDateString() @Html.ActionLink("Return","ReturnBook", new { isbn = book.Isbn, copyNumber = book.CopyNumber, userId= User.Identity.GetUserId() })</li>
+        }
+    }
+</ul>

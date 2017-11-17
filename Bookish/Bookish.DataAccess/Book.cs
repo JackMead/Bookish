@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Bookish
 {
@@ -6,9 +7,9 @@ namespace Bookish
     {
         public string Title { get; set; }
         public string Author { get; set; }
-        public int ISBN { get; set; }
-        public int ID { get; set; }
+        public int Isbn { get; set; }
+        public int CopyNumber { get; set; }
         public string UserId { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime DueDate { get; set; }
     }
 }

@@ -15,7 +15,7 @@ GO
 -- Create the tables
 
 CREATE TABLE Users (
-	Id nvarchar(20) NOT NULL PRIMARY KEY,
+	Id nvarchar(50) NOT NULL PRIMARY KEY,
 	Password nvarchar(20) NOT NULL
 )
 GO
@@ -25,7 +25,7 @@ CREATE TABLE Books (
 	Title nvarchar(max) NOT NULL,
 	ISBN int NOT NULL,
 	CopyNumber int NOT NULL,
-	UserId nvarchar(20) NULL,
+	UserId nvarchar(50) NULL,
 	DueDate date NULL,
 	PRIMARY KEY (ISBN, CopyNumber)
 )
