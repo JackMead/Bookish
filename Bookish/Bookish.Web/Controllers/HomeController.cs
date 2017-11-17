@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Bookish.DataAccess;
 using Bookish.Web.Models;
 using Microsoft.SqlServer.Server;
 
@@ -27,9 +28,12 @@ namespace Bookish.Web.Controllers
 
         public ActionResult Catalogue()
         {
+            var books = new DataAccessor().GetListOfAllBooks();
+            var bookSummaries = new BookOrganiser().GetSummaryOfBooks(books);
+
             var booksModel = new BooksModel
             {
-                books = new DataAccess().GetListOfAllBooks()
+                BookSummaries = bookSummaries
             };
 
             return View(booksModel);
@@ -39,7 +43,7 @@ namespace Bookish.Web.Controllers
         {
             var books = new BooksModel
             {
-                books = new DataAccess().GetBooksForUser(userId)
+                books = new DataAccessor().GetBooksForUser(userId)
             };
             return View(books);
         }
@@ -51,7 +55,7 @@ namespace Bookish.Web.Controllers
                 Isbn = isbn,
                 CopyNumber = copyNumber
             };
-            new DataAccess().ReturnBook(book);
+            new DataAccessor().ReturnBook(book);
             return RedirectToAction("Books", new { userId = userId });
         }
 
@@ -62,7 +66,7 @@ namespace Bookish.Web.Controllers
                 Isbn = isbn,
                 CopyNumber = copyNumber
             };
-            new DataAccess().TakeOutBook(book, userId);
+            new DataAccessor().TakeOutBook(book, userId);
             return RedirectToAction("Catalogue");
         }
 
@@ -74,20 +78,21 @@ namespace Bookish.Web.Controllers
                 Author = author,
                 Title = title
             };
-            new DataAccess().AddNewBook(book);
+            new DataAccessor().AddNewBook(book);
             return RedirectToAction("Catalogue");
         }
 
         public ActionResult Search(string inputText)
         {
             //Add a search method to data access
-
+            var books = new DataAccessor().GetBooksByAuthor(inputText);
+            books.AddRange(new DataAccessor().GetBooksByTitle(inputText));
+            var bookSummaries = new BookOrganiser().GetSummaryOfBooks(books);
 
             var bookModel = new BooksModel
             {
-                books = new DataAccess().GetBooksByAuthor(inputText)
+                BookSummaries = bookSummaries
             };
-            bookModel.books.AddRange(new DataAccess().GetBooksByTitle(inputText));
 
             return View("Catalogue", bookModel);
         }

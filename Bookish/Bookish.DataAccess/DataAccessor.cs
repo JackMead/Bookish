@@ -7,7 +7,7 @@ using Dapper;
 
 namespace Bookish
 {
-    public class DataAccess
+    public class DataAccessor
     {
         public List<Book> GetListOfAllBooks()
         {

@@ -33,13 +33,20 @@
 
 <ul>
     @{
-        foreach (var book in Model.books)
+        foreach (var book in Model.BookSummaries)
         {
             <li>
-                @book.Title
-                @if (book.UserId==null && User?.Identity.IsAuthenticated == true) //TODO test for user logged in
+                @book.Value.Title by @book.Value.Author. @if (book.Value.CopyAvailable)
+                                                         {
+                                                             @: Currently Available
+                                                         }
+                                                         else
+                                                         {
+                                                             @: Currently Unavailable. Next copy will be free on @book.Value.DateFirstCopyComesAvailable
+                                                         }
+                @if (@book.Value.CopyAvailable && User?.Identity.IsAuthenticated == true)
                 {
-                    @Html.ActionLink("Check Out", "CheckOut", new { isbn = book.Isbn, copyNumber = book.CopyNumber, userId = User.Identity.GetUserId() })
+                    @Html.ActionLink("Check Out", "CheckOut", new { isbn = book.Value.ISBN, copyNumber = book.Value.FirstCopyNumberAvailable, userId = User.Identity.GetUserId() })
                 }
 
             </li>

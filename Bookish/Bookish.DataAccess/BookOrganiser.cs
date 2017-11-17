@@ -8,7 +8,7 @@ namespace Bookish.DataAccess
 {
     public class BookOrganiser
     {
-        public List<BookSummary> GetSummaryOfBooks(List<Book> books)
+        public Dictionary<string, BookSummary> GetSummaryOfBooks(List<Book> books)
         {
             var bookSummary = new Dictionary<string, BookSummary>();
             foreach(Book book in books)
