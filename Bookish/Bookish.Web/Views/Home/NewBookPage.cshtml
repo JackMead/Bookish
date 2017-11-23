@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "AddBook";
+}
+@model Bookish.Web.Models.BooksModel
+
+<h2>AddBook</h2>
+@using (Html.BeginForm("AddBook", "Home", FormMethod.Get))
+{
+    <fieldset>
+        <!-- Get book info from ISBN? -->
+        <!-- ?? TODO Fix inputs can be empty -->
+        <legend>Book Title:</legend>
+        @Html.TextBoxFor(b => b.Title, new { @class = "form-control" })
+        <legend>Author:</legend>
+        @Html.TextBoxFor(b => b.Author, new { @class = "form-control" })
+        <legend>Isbn:</legend>
+        @Html.TextBoxFor(b => b.Isbn, new { @class = "form-control" })
+        <input class="btn btn-info btn-margin" type="submit" value="Add Book" />
+    </fieldset>
+}

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data;
+using Bookish.DataAccess;
 
 
 namespace Bookish
@@ -14,7 +14,12 @@ namespace Bookish
 
         public void Run()
         {
-            var dbAccess = new DataAccess();
+            var isbn = 1447146034;
+            var book1 = new DataAccess.BookDetailsAccessor().GetBookFromISBN(isbn);
+            Console.WriteLine(book1.Title);
+
+            /*
+            var dbAccess = new DataAccess.DataAccessor();
             var books = dbAccess.GetListOfAllBooks();
             foreach (var book in books)
             {
@@ -37,9 +42,10 @@ namespace Bookish
             dbAccess.ReturnBook(books[1]);
             PrintJacksBooks(dbAccess);
             Console.ReadLine();
+            */
         }
 
-        public void PrintJacksBooks(DataAccess dbAccess)
+        public void PrintJacksBooks(DataAccessor dbAccess)
         {
             var jackBooks = dbAccess.GetBooksForUser("jack");
             Console.WriteLine("Printing Jack's Books:");

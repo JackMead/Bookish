@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Bookish.DataAccess;
 using Bookish.Web.Models;
 using Microsoft.SqlServer.Server;
@@ -70,24 +71,25 @@ namespace Bookish.Web.Controllers
             return RedirectToAction("Catalogue");
         }
 
-        public ActionResult AddBook(int isbn, string author, string title)
+        public ActionResult NewBookPage()
         {
-            var book = new Book
+            return View();
+        }
+
+        public ActionResult AddBook(Int64 isbn, string author, string title)
+        {
+            var book = new BookDetailsAccessor().GetBookFromISBN(isbn);
+            if (string.IsNullOrEmpty(book.Title))
             {
-                Isbn = isbn,
-                Author = author,
-                Title = title
-            };
+                return RedirectToAction("NewBookPage");
+            }
             new DataAccessor().AddNewBook(book);
             return RedirectToAction("Catalogue");
         }
 
         public ActionResult Search(string inputText)
         {
-            //Add a search method to data access
-            var books = new DataAccessor().GetBooksByAuthor(inputText);
-            books.AddRange(new DataAccessor().GetBooksByTitle(inputText));
-            var bookSummaries = new BookOrganiser().GetSummaryOfBooks(books);
+            var bookSummaries = new BookOrganiser().GetSummaryOfBooks(new DataAccessor().SearchBooks(inputText));
 
             var bookModel = new BooksModel
             {

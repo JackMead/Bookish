@@ -27,15 +27,15 @@ namespace Bookish.DataAccess
                     };
                 }
                 bookSummary[book.Title].NumberCopies += 1;
-                if (book.UserId == null)
+                if (string.IsNullOrEmpty(book.UserId))
                 {
                     bookSummary[book.Title].CopyAvailable = true;
                     bookSummary[book.Title].FirstCopyNumberAvailable =
                         Math.Max(bookSummary[book.Title].FirstCopyNumberAvailable, book.CopyNumber);
                 }
-                if (book.UserId != null)
+                if (book.UserId != null && book.DueDate.HasValue)
                 {
-                    bookSummary[book.Title].DateFirstCopyComesAvailable = new DateTime[] {bookSummary[book.Title].DateFirstCopyComesAvailable, book.DueDate}.OrderBy(p => p.Date).First();
+                    bookSummary[book.Title].DateFirstCopyComesAvailable = new DateTime[] {bookSummary[book.Title].DateFirstCopyComesAvailable, book.DueDate.Value}.OrderBy(p => p.Date).First();
                 }
 
             }
@@ -48,7 +48,7 @@ namespace Bookish.DataAccess
     {
         public string Title { get; set; }
         public string Author { get; set; }
-        public int ISBN { get; set; }
+        public Int64 ISBN { get; set; }
         public int NumberCopies { get; set; }
         public bool CopyAvailable { get; set; }
         public int FirstCopyNumberAvailable { get; set; }

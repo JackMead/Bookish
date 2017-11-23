@@ -16,40 +16,39 @@
     </fieldset>
 } 
 
-@using (Html.BeginForm("AddBook", "Home", FormMethod.Get))
-{
-    <fieldset>
-        <!-- Get book info from ISBN? -->
-        <!-- ?? TODO Fix inputs can be empty -->
-        <legend>Book Title:</legend>
-        @Html.TextBoxFor(b => b.Title, new {@class = "form-control"})
-        <legend>Author:</legend>
-        @Html.TextBoxFor(b => b.Author, new {@class = "form-control"})
-        <legend>Isbn:</legend>
-        @Html.TextBoxFor(b => b.Isbn, new {@class = "form-control"})
-        <input class="btn btn-info btn-margin" type="submit" value="Add Book"/>
-    </fieldset>
-}
+@Html.ActionLink("Add Book", "NewBookPage", "Home")
 
-<ul>
+
+<table id="catalogue">
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Availability</th>
+        <th>Check Out</th>
+    </tr>
     @{
         foreach (var book in Model.BookSummaries)
         {
-            <li>
-                @book.Value.Title by @book.Value.Author. @if (book.Value.CopyAvailable)
-                                                         {
-                                                             @: Currently Available
-                                                         }
-                                                         else
-                                                         {
-                                                             @: Currently Unavailable. Next copy will be free on @book.Value.DateFirstCopyComesAvailable
-                                                         }
-                @if (@book.Value.CopyAvailable && User?.Identity.IsAuthenticated == true)
+            <tr>
+                <td id="title">@book.Value.Title</td>
+                <td id ="author">@book.Value.Author</td>
+                <td id="availability">@if (book.Value.CopyAvailable)
+                    {
+                        @: Currently Available
+                    }
+                    else
+                    {
+                        @: Next copy will be free on @book.Value.DateFirstCopyComesAvailable
+                    }
+                </td>
+                <td id="check-out">
+                    @if (@book.Value.CopyAvailable && User?.Identity.IsAuthenticated == true)
                 {
-                    @Html.ActionLink("Check Out", "CheckOut", new { isbn = book.Value.ISBN, copyNumber = book.Value.FirstCopyNumberAvailable, userId = User.Identity.GetUserId() })
-                }
+                        @Html.ActionLink("Check Out", "CheckOut", new { isbn = book.Value.ISBN, copyNumber = book.Value.FirstCopyNumberAvailable, userId = User.Identity.GetUserId() })
+                    }
+                </td>
 
-            </li>
+            </tr>
         }
     }
-</ul>
+</table>
